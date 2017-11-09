@@ -146,6 +146,11 @@ for R = 1:1:N
 
 
   end
+
+  % add msg_dfs_off curves into the initialization curves
+  hold on;
+  plot(1:f(end)/128:f(end),DFSInit.front.msg_dfs_off,'-r','LineWidth',2);
+
   hold all
   legend_name = logFile;
   index = strfind(legend_name, '_fblog'); % ignore ALT log naming
@@ -188,7 +193,7 @@ for R = 1:1:N
         h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1);%,'Color',[0.5 1 0.5]);
       end
     end
-
+    
     % plot front and rear figure in same plot (as many plots as we have log files)
     if ~mismatch
       %figtogether = figure;
@@ -234,8 +239,8 @@ figure(1)
 hold on
 h_front(N+1,1) = plot(frq_FOG,FOG);
 legend_labels_front{N+1,1} = 'IG';
-% xlim([100,fs/2])
-% ylim([20,100])
+xlim([100,fs/2])
+ylim([20,100])
 xlabel('Frequency [Hz]')
 ylabel('Magnitude[dB]')
 title('Front Initialization')
@@ -275,3 +280,7 @@ end
 
 
 %% save the figure
+figure(4);
+ylim([-100,0])
+figure(5);
+ylim([-100,0])
