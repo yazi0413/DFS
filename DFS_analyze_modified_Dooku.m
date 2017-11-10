@@ -62,7 +62,7 @@ legend_labels_front = cell(N,1);
 legend_labels_rear = cell(N,1);
 
 %--- plot all logfiles in an overlay ---%
-% fig_title=input('please input the model as the figure title: ','s');
+model=input('please input the model as the figure title: ','s');
 fig_title='Delhi80';
 figfront = figure('Name',fig_title,'units','normalized','outerposition',[0 0.2 1/3 2/3]); % front
 figrear = figure('Name',fig_title,'units','normalized','outerposition',[1/3 0.2 1/3 2/3]); % rear
@@ -90,12 +90,13 @@ for data_i=1:OPL_N
     index_rear=strfind(temp_s,'Rear_');
     if ~isempty(index_front)
         figure(4);hold on;title('Front OPL');
-        plot(temp(:,1),temp(:,2),'k','linewidth',1);
+        h_f=plot(temp(:,1),temp(:,2),'k','linewidth',1);
     elseif ~isempty(index_rear)
         figure(5);hold on;title('Rear OPL');
-        plot(temp(:,1),temp(:,2),'k','linewidth',1);
+        h_r=plot(temp(:,1),temp(:,2),'k','linewidth',1);
     end
 end
+cd ..
 
 %%
 % start to handle with the DFS data
@@ -159,7 +160,7 @@ for R = 1:1:N
 
   %%%%%%% add the attenu curve to OPL_front
   figure(4);hold on;
-  plot(f(:,1),front_response_calibrated);
+  h_f1=plot(f(:,1),front_response_calibrated);
 
   if type_dual % plot dual plots
 
@@ -183,6 +184,10 @@ for R = 1:1:N
       else
         h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'linewidth',2);
       end
+      % add msg_dfs_off curves into the initialization curves
+      hold on;
+      plot(1:f(end)/128:f(end),DFSInit.rear.msg_dfs_off,'-r','LineWidth',2);
+
     else
       if plot_calibrated_response
         rear_response = 20*log10(abs(H_rear));
@@ -192,8 +197,11 @@ for R = 1:1:N
       else
         h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1);%,'Color',[0.5 1 0.5]);
       end
+      % add msg_dfs_off curves into the initialization curves
+      hold on;
+      plot(1:f(end)/128:f(end),DFSInit.rear.msg_dfs_off,'-r','LineWidth',2);
     end
-    
+
     % plot front and rear figure in same plot (as many plots as we have log files)
     if ~mismatch
       %figtogether = figure;
@@ -218,6 +226,8 @@ for R = 1:1:N
       tit = title('all freqency response without system cal');
       fig = gcf;
       set(tit,'Interpreter','none');
+      % make the figure full screen
+      set(gcf,'units','normalized','position',[0,0,1,1]);
     end
 
     hold all
@@ -228,7 +238,7 @@ for R = 1:1:N
 
     %%%%%%% add the attenu curve to OPL_rear
     figure(5);hold on;
-    plot(f(:,1),rear_response_calibrated);
+    h_r1=plot(f(:,1),rear_response_calibrated);
   end
 
 end
@@ -248,8 +258,9 @@ leg = legend(h_front,legend_labels_front{:});
 set(leg,'Interpreter','none'); % do not treat underscore as a control character
 set(leg,'FontSize',10);
 leg.Location = 'best';
-set(gcf,'color','w');
+set(gcf,'color','w','position',[0,0,1,1]);
 hold off; grid on; box on;
+
 
 if type_dual
   %figrear.Parent.CurrentFigure = 2;
@@ -274,13 +285,28 @@ if type_dual
     set(leg_rear,'Interpreter','none'); % do not treat underscore as a control character
     set(leg_rear,'FontSize',10);
     leg_rear.Location = 'best';
-    set(gcf,'color','w');
+    set(gcf,'color','w','position',[0,0,1,1]);
   end
 end
 
 
 %% save the figure
+figure(1);
+saveas(gcf,[model '_front_msg_dfs_off'],'bmp');
+figure(2);
+saveas(gcf,[model '_rear_msg_dfs_off'],'bmp');
+figure(3);
+saveas(gcf,[model '_all_freq_res_wo_cal'],'bmp');
 figure(4);
 ylim([-100,0])
+legend([h_f,h_f1],'OPL','Attenu from freqz');
+% make the figure full-screen
+set(gcf,'units','normalized','position',[0,0,1,1]);
+saveas(gcf,[model '_front_OPL_atten'],'bmp');
+
 figure(5);
 ylim([-100,0])
+legend([h_r,h_r1],'OPL','Attenu from freqz');
+% make the figure full-screen
+set(gcf,'units','normalized','position',[0,0,1,1]);
+saveas(gcf,[model '_rear_OPL_atten'],'bmp');
