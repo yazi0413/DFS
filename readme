@@ -1,5 +1,7 @@
 a script for DFS analyzer
 
+MLS, maximum length sequence, this is the sound you hear when you press calibrate
+
 DFSInit.init_front = accumulated response on front mic (MLS+impulse response)
 DFSInit.init_resp_front = Impulse Response on front mic (MLS - accumulated response)
 DFSInit.front.msg_dfs_off = MSG when DFS is off (calibration not included)
