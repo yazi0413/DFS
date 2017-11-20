@@ -13,15 +13,18 @@ DFSInit.init_resp_front = Impulse Response on front mic (MLS - accumulated respo
   and since the impulse response is in the time, we make an FFT to obtain the frequency characteristics.
   this becomes the MSG curve (msg_dfs_off)
 
+DFSInit.ImpulseResponseFront = DFSInit.init_resp_front.
+  i don't know why two same variable but named different are need.
+
 DFSInit.front.msg_dfs_off = MSG when DFS is off (calibration not included)
 
-to obtain the red line in ALT (MSG) by transforming init_front to frequency domain and included system calibrations
-and production calibration (or take the msg_dfs_off and include calibration, i just prefer the other way)
+to obtain the red line in ALT (MSG) by transforming init_front to frequency domain and included system
+and production calibrations (or take the msg_dfs_off and include calibration, i just prefer the other way)
   msg_dfs_off + system calibration = MSG
   MSG covers all frequency from DC to FS/2
     however, the variations on low frequencies are so large that we don't show them in ALT (and they are not
     important here neither as feedback usually occurs above 1kHz).
     Also, the anti aliasing filter kicks in around 9kHz, so on very high frequencies close to fs/2, there we don't care eigher
-    
+
 
 in case of dual mic, then it is worse case between the two curves that determines MSG for each frequency
