@@ -26,7 +26,9 @@ and production calibrations (or take the msg_dfs_off and include calibration, i 
     important here neither as feedback usually occurs above 1kHz).
     Also, the anti aliasing filter kicks in around 9kHz, so on very high frequencies close to fs/2, there we don't care eigher
 
-!!! But, this MSG is not equal to the MSG_From_OPL, that is because the H bridge is not included
+!!! But, this MSG is not equal to the MSG_From_OPL, that is because the H bridge is not included.
+Here, the MSG is the maximum gain setting we can set in HI. and the MSG the frequency response
+of the feedback path (receiver to microphone), that does not include the Hybric
     MSG_here + gain(setting0)_711 = MSG_From_OPL
 
 in case of dual mic, then it is worse case between the two curves that determines MSG for each frequency
