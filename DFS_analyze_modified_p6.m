@@ -7,18 +7,41 @@ plot_calibrated_response = 1; % set to 1 if calibrations should be taken into ac
 sub_name = '\DFSout\'; % set subfolder name
 production_calibration = 0; % output cal offset, just copy the number here
 
-%cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7]; %% System cal in Dooku1 BerlinRIE LP
+%% System cal in Palpatine
+%
 
-%cal = [-3	-3 1 4 5 6 6 7 7 8 9 11 17 17 13 8 8]; %% System cal in Dooku1 BerlinRIE NP
+% palpatine2 Delhi80
+cal =[-23 -23 -21 -21 -25 -27 -27 -27 -21 -24 -18 -13 -14 -17 -11 -5 -5];
 
-%cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7];
-%cal = [-12 	-11	-10	-7	-6	-3	-4	-4	-4	-3	-2	0	7	8	6 5	5]; %p6 luxor NP System cal
-cal = [-0 	0	0	0	0	0	0	0	0	0	0	0	0	0	0 0	0];
-cal = cal + production_calibration - 6;
-%fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % system cal frq at Dooku
-fre = [0 163 329 501 682 876 1090 1328 1600 1919 2301 2773 3370 4140 5136 6383 7812]; % P6
-frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
-FOG=[51, 51, 51, 51, 51, 48, 48, 48, 48, 48];  %Luxor NP
+% No system cal at all
+%cal = [0	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+
+cal = cal + production_calibration -6;
+% fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % High bandwitdth frequencies
+fre = [0 163 329 501 682 876 1090 1328 1600 1919 2301 2773 3370 4140 5136 6383 7812]; % High bandwitdth frequencies
+
+% frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
+frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000]; %palpatine
+
+FOG=[57 59 59 61 62 58 56 51 51];  %Delhi80
+%FOG=[51, 51, 51, 51, 51, 48, 48, 48, 48, 48];  %Luxor NP
+%FOG=[50, 50, 50, 50, 54, 56, 53, 42, 42, 42]; %HP
+%FOG=[43, 43, 43, 42, 43, 43, 42, 41, 41, 41]; %LP
+color_array = {'-b','-r','-c','-m','-g','-y','-k','--b','--r','--c','--m','--g','--y','--k'};
+
+% 
+% %cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7]; %% System cal in Dooku1 BerlinRIE LP
+% 
+% %cal = [-3	-3 1 4 5 6 6 7 7 8 9 11 17 17 13 8 8]; %% System cal in Dooku1 BerlinRIE NP
+% 
+% %cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7];
+% %cal = [-12 	-11	-10	-7	-6	-3	-4	-4	-4	-3	-2	0	7	8	6 5	5]; %p6 luxor NP System cal
+% cal = [-0 	0	0	0	0	0	0	0	0	0	0	0	0	0	0 0	0];
+% cal = cal + production_calibration - 6;
+% %fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % system cal frq at Dooku
+% fre = [0 163 329 501 682 876 1090 1328 1600 1919 2301 2773 3370 4140 5136 6383 7812]; % P6
+% frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
+% FOG=[51, 51, 51, 51, 51, 48, 48, 48, 48, 48];  %Luxor NP
 
 
 %% plot more OMNI curves together

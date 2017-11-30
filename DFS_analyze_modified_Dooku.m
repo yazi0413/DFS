@@ -40,7 +40,7 @@ color_array = {'-b','-r','-c','-m','-g','-y','-k','--b','--r','--c','--m','--g',
 % %cal = [0	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 % 
 % %cal = [7 7 11 12 13 13 12 13 13 13 14 16 19 17 14 8 8];
-% 
+%  
 % 
 % cal = cal + production_calibration;
 % fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % High bandwitdth frequencies
@@ -75,6 +75,27 @@ checking_dual = 0;
 checking_omni = 0;
 mismatch = 0;
 
+
+
+%% import FOG data and gain0
+cd D:\MATLAB\work\DFS\FOG
+GAIN_D=dir([pwd,'\*.txt']);
+GAIN_N = length(GAIN_D(not([GAIN_D.isdir])));
+for data_i=1:GAIN_N
+    temp_s=GAIN_D(data_i).name;
+    index1=strfind(temp_s,'_I'); %text file name as the variable name
+    eval([temp_s(1:3) temp_s(5:index1-1) '=importdata(temp_s);']) %import from text file
+end
+cd gain0
+GAIN_D=dir([pwd,'\*.txt']);
+GAIN_N = length(GAIN_D(not([GAIN_D.isdir])));
+for data_i=1:GAIN_N
+    temp_s=GAIN_D(data_i).name;
+    index1=strfind(temp_s,'_I'); %text file name as the variable name
+    eval([temp_s(1:index1-1) '=importdata(temp_s);']) %import from text file
+end
+cd ..
+cd ..
 %%
 % import OPL data
 cd D:\MATLAB\work\DFS\OPL
@@ -90,10 +111,10 @@ for data_i=1:OPL_N
     index_rear=strfind(temp_s,'Rear_');
     if ~isempty(index_front)
         figure(4);hold on;title('Front OPL');
-        h_f=plot(temp(:,1),temp(:,2),'k','linewidth',2);
+        h_f=plot(temp(:,1),FOG20F(:,2)+20-temp(:,2),'k','linewidth',2);
     elseif ~isempty(index_rear)
         figure(5);hold on;title('Rear OPL');
-        h_r=plot(temp(:,1),temp(:,2),'k','linewidth',2);
+        h_r=plot(temp(:,1),FOG20R(:,2)+20-temp(:,2),'k','linewidth',2);
     end
 end
 cd ..
@@ -160,7 +181,7 @@ for R = 1:1:N
   
   %%%%%%% add the attenu curve to OPL_front
   figure(4);hold on;
-  h_f1=plot(f(:,1),front_response_calibrated,'-r','LineWidth',2);
+  h_f1=plot(f(:,1), mirror.*front_response_calibrated,'-r','LineWidth',2);
 
   if type_dual % plot dual plots
 
@@ -227,7 +248,7 @@ for R = 1:1:N
       grid on  
       legend('rear response','front response','msg\_dfs\_off\_front','msg\_dfs\_off\_rear')
 %       tit = title(legend_labels_front{R});  
-      tit = title('all freqency response without system cal');
+      tit = title('msg\_dfs\_off vs freq response without system cal');
       fig = gcf;
       set(tit,'Interpreter','none');
       % make the figure full screen
@@ -301,9 +322,9 @@ figure(2);
 saveas(gcf,[model '_rear_msg_dfs_off'],'bmp');
 figure(3);
 saveas(gcf,[model '_all_freq_res_wo_cal'],'bmp');
-figure(4);
-ylim([-100,0])
-legend([h_f,h_f1],'OPL','Attenu of feedback path');
+% figure(4);
+% ylim([-100,0])
+legend([h_f,h_f1],'MSG_OPL','from feedback path');
 % make the figure full-screen
 set(gcf,'units','normalized','position',[0,0,1,1]);
 grid on;
@@ -311,7 +332,7 @@ saveas(gcf,[model '_front_OPL_atten'],'bmp');
 
 figure(5);
 ylim([-100,0])
-legend([h_r,h_r1],'OPL','Attenu of feedback path');
+% legend([h_r,h_r1],'OPL','Attenu of feedback path');
 grid on;
 % make the figure full-screen
 set(gcf,'units','normalized','position',[0,0,1,1]);
