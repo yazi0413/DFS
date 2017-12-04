@@ -222,16 +222,14 @@ if type_dual
 end  
 
 %% do the MSG comparision between ALT and OPL
-% temp=importdata('validate this script.xlsx');
-% f_opl=temp.data(1:end-5,1);
-% gain0=temp.data(1:end-5,3);
-% MSG_alt=interp1(f,mirror.*front_response_calibrated,f_opl)+gain0;
-% MSG_opl=temp.data(1:end-5,5);
-% fig_msg = figure('Name','two MSG','units','normalized','outerposition',[0 0.2 1/3 2/3]); % msg
-% plot(f_opl,MSG_opl);
-% hold on;plot(f_opl,MSG_alt,'-r');
-% legend('MSG\_OPL','MSG\_ALT');
-% DIFF_MSG=MSG_opl-MSG_alt;
-% fig_diff = figure('Name','diff of msg','units','normalized','outerposition',[0 0.2 1/3 2/3]); % diff of msg
-% plot(f_opl,DIFF_MSG)
-% legend('diff of MSG');
+temp=importdata('validate this script.xlsx');
+f_opl=temp.data(1:end-5,1);
+gain0=temp.data(1:end-5,3);
+MSG_alt=interp1(f,mirror.*front_response_calibrated,f_opl)+gain0;
+MSG_opl=temp.data(1:end-5,5);
+figure;plot(f_opl,MSG_opl);
+hold on;plot(f_opl,MSG_alt,'-r');
+legend('MSG\_OPL','MSG\_ALT');
+DIFF_MSG=MSG_opl-MSG_alt;
+figure;plot(f_opl,DIFF_MSG)
+legend('diff of MSG');
