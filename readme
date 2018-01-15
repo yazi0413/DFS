@@ -18,7 +18,7 @@ DFSInit.ImpulseResponseFront = DFSInit.init_resp_front.
 
 DFSInit.front.msg_dfs_off = MSG when DFS is off (calibration not included)
 
-to obtain the red line in ALT (MSG) by transforming init_front to frequency domain and included system
+to obtain the red line in ALT (MSG) by transforming init_resp_front to frequency domain and included system
 and production calibrations (or take the msg_dfs_off and include calibration, i just prefer the other way)
   msg_dfs_off + system calibration = MSG
   MSG covers all frequency from DC to FS/2
