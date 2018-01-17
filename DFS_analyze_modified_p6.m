@@ -93,25 +93,26 @@ for R = 1:1:N
   end
 
   temp = strfind(logFile, 'ref');
-  figfront.Parent.CurrentFigure = 1;
+  figure(1);
+%   figfront.Parent.CurrentFigure = 1;
   hold on;
   if (temp ~= 0) % reference
     if plot_calibrated_response 
       front_response = 20*log10(abs(H_front));
       cal_interpolated = interp1(fre,cal,f(:,1)); 
       front_response_calibrated = front_response + cal_interpolated;
-      h_front(R,1) = plot(f(:,1),mirror.*front_response_calibrated,'linewidth',2);
+      h_front(R,1) = plot(f(:,1),mirror.*front_response_calibrated,'linewidth',2, color_array{R});
     else
-      h_front(R,1) = plot(f(:,1),mirror.*20*log10(abs(H_front)),'linewidth',2);
+      h_front(R,1) = plot(f(:,1),mirror.*20*log10(abs(H_front)),'linewidth',2, color_array{R});
     end
   else
     if plot_calibrated_response 
       front_response = 20*log10(abs(H_front));
       cal_interpolated = interp1(fre,cal,f(:,1)); 
       front_response_calibrated = front_response + cal_interpolated;
-      h_front(R,1) = plot(f(:,1), mirror.*front_response_calibrated);
+      h_front(R,1) = plot(f(:,1), mirror.*front_response_calibrated, color_array{R});
     else
-      h_front(R,1) = plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1);%,'Color',[1 0 0]);
+      h_front(R,1) = plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1, color_array{R});%,'Color',[1 0 0]);
     end
     
     
@@ -125,13 +126,13 @@ for R = 1:1:N
   if type_dual % plot dual plots
 
     if checking_dual && checking_omni && dont_come_here_again
-      figrear = figure('Name','LuxorRHI','units','normalized','outerposition',[1/3 0.2 1/3 2/3]); % rear
+        figrear = figure('Name','LuxorRHI','units','normalized','outerposition',[1/3 0.2 1/3 2/3]); % rear
       dont_come_here_again = 0;
       mismatch = 1;
       fprintf('There has been a mix between OMNI and DUAL log files, overlay therefore not plotted\n');
     end
-    
-    figfront.Parent.CurrentFigure = 2;
+    figure(2);
+%     figfront.Parent.CurrentFigure = 2;
     temp = strfind(logFile, 'ref');
     hold on
     if (temp ~= 0)
@@ -139,33 +140,34 @@ for R = 1:1:N
         rear_response = 20*log10(abs(H_rear));
         cal_interpolated = interp1(fre,cal,f(:,1)); 
         rear_response_calibrated = rear_response + cal_interpolated;
-        h_rear(R,1) = plot(f_rear(:,1),mirror.*rear_response_calibrated,'linewidth',2);
+        h_rear(R,1) = plot(f_rear(:,1),mirror.*rear_response_calibrated,'linewidth',2, color_array{R});
       else
-        h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'linewidth',2);
+        h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'linewidth',2, color_array{R});
       end
     else
       if plot_calibrated_response 
         rear_response = 20*log10(abs(H_rear));
         cal_interpolated = interp1(fre,cal,f(:,1)); 
         rear_response_calibrated = rear_response + cal_interpolated;
-        h_rear(R,1) = plot(f(:,1), mirror.*rear_response_calibrated);
+        h_rear(R,1) = plot(f(:,1), mirror.*rear_response_calibrated, color_array{R});
       else
-        h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1);%,'Color',[0.5 1 0.5]);
+        h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1, color_array{R});%,'Color',[0.5 1 0.5]);
       end
     end
     
     % plot front and rear figure in same plot (as many plots as we have log files)
     if ~mismatch
-      figtogether = figure;
-      figtogether.set('units','normalized');
+%       figtogether = figure;
+%       figtogether.set('units','normalized');
+        figure(3);
       k = R;
       if ((R*0.2)>1)
         k = 1; % do not plot outside screen
       end
       figtogether.Position = [2/3 0.2*R 1/3 3/(5*N)]; % x,y,w,h
-      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1)
+      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-b','linewidth',1)
       hold on
-      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1)
+      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-r','linewidth',1)
       xlim([100,fs/2])
       hold off
       grid on  
@@ -184,8 +186,9 @@ for R = 1:1:N
 
 end
 
-
-figfront.Parent.CurrentFigure = 1;
+figure(1);
+hold on;
+% figfront.Parent.CurrentFigure = 1;
 h_front(N+1,1) = plot(frq_FOG,FOG);
 legend_labels_front{N+1,1} = 'IG';
 xlim([100,fs/2])
@@ -201,6 +204,7 @@ set(gcf,'color','w');
 hold off; grid on; box on;
 
 if type_dual
+    figure(2);
   figrear.Parent.CurrentFigure = 2;
   legend_labels_rear{N+1,1} = 'IG';
   h_rear(N+1,1) = plot(frq_FOG,FOG);

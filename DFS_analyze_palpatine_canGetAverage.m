@@ -152,16 +152,17 @@ for R = 1:1:N
     
     % plot front and rear figure in same plot (as many plots as we have log files)
     if ~mismatch
-      figtogether = figure;
-      figtogether.set('units','normalized');
+%       figtogether = figure;
+%       figtogether.set('units','normalized');
+      figure(3);
       k = R;
       if ((R*0.2)>1)
         k = 1; % do not plot outside screen
       end
       figtogether.Position = [2/3 0.2*R 1/3 3/(5*N)]; % x,y,w,h
-      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1)
+      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-b','linewidth',1)
       hold on
-      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1)
+      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-r','linewidth',1)
       xlim([100,fs/2])
       hold off
       grid on  
