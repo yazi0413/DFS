@@ -32,3 +32,12 @@ of the feedback path (receiver to microphone), that does not include the Hybric
     MSG_here + gain(setting0)_711 = MSG_From_OPL
 
 in case of dual mic, then it is worse case between the two curves that determines MSG for each frequency
+
+
+TCDFS,
+in the preliminary Dooku2 release for Cambridge, one issue found. the coefficients for the feedback filter was
+not written correctly during TCDFS init.
+  and this is solved in the following database patch:\\Hearing\Data\Releases\AlgorithmDeliveries\Dooku2\Dooku1Cambridge1\DB Patch (TCDFS + CDI Creation)\RatatoskConfiguration.sdf
+in AlgolabTest you can only see the MSG for TC in the TelecoilMic1 input mode, when no DFS initialization have
+been done for the mics. in the latter case you will only see MSG for the mics.
+  i guess the reason for this is, that the MSG for telecoil is normally much higher and relevant in TelecoilMic1 scenarios
