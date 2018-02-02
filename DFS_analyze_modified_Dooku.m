@@ -26,8 +26,8 @@ production_calibration = 0; % output cal offset, just copy the number here
 %% System cal in Dooku1 BerlinRIE UP
 %cal = [-7	-7 -3 -3 -3 -3 -6 -10 -10 -4 4 11 14 8 6  2 2] %before D14
 %cal = [-8	-7 -1 -2 -3 -4 -8 -9 -14 -10 2 14 10 7 11  5 5] %.19
-cal = [-6 -5 -1 -2 -2 -3 -6 -10 -10 -6 4 11 14 8 7 2 2]; %PA3 final
-
+% cal = [-6 -5 -1 -2 -2 -3 -6 -10 -10 -6 4 11 14 8 7 2 2]; %PA3 final
+cal = [-10	-7	-3	-4	-3	-5	-6	-11	-10	-6	4	9	14	7	5	1	1]; % CAM13 UP
 
 cal = cal + production_calibration;
 fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % High bandwitdth frequencies
@@ -37,7 +37,9 @@ frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
 %FOG=[50, 50, 50, 50, 54, 56, 53, 42, 42, 42]; %HP
 %FOG=[43, 43, 43, 42, 43, 43, 42, 41, 41, 41]; %LP
 %FOG=[55, 55, 55, 57, 76, 79, 48, 54, 49, 46]; %UP 19.0 earlier
-FOG=[55, 55, 55, 68, 74, 76, 48, 57, 49, 40]; %UP PA3 final
+% FOG=[55, 55, 55, 68, 74, 76, 48, 57, 49, 40]; %UP PA3 final
+FOG=[55	55	55	61	74	76	48	55	48	40]; % CAM13 UP
+
 color_array = {'-b','-r','-c','-m','-g','-y','-k','--b','--r','--c','--m','--g','--y','--k'};
 %% plot more OMNI curves together
 currentFolder = pwd;
@@ -224,3 +226,4 @@ if type_dual
     set(gcf,'color','w');
   end
 end  
+

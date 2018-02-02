@@ -4,51 +4,43 @@ clc;
 
 mirror = -1; % set to -1 if gain curve is desired instead of attenuation curve
 plot_calibrated_response = 1; % set to 1 if calibrations should be taken into account
-sub_name = '\DFSout\'; % set subfolder name
+sub_name = '\DFSout\';
 production_calibration = 0; % output cal offset, just copy the number here
 
-%% System cal in Palpatine
+
+%% System cal in Dooku1 BerlinRIE NP
 %
+%cal = [-3	-3 2 6 6 8 8 9 9 10 10 13 19 17 13 7 7]; %nP before Dooku .14
+%cal = [-3	-3 2 6 6 8 6 7 7 8 6 11 20 20 18 12 7];
 
-% % palpatine2 Delhi80
-% cal =[-23 -23 -21 -21 -25 -27 -27 -27 -21 -24 -18 -13 -14 -17 -11 -5 -5];
+%Dooku1 Berlin RIE HP
+%cal = [2 2 6 6 6 6 5 2 3 4 8 11 16 16 10 7 7];
 
-% palpatine5 Berlin70
-cal =[-9, -9, -9, -9, -8, -7, -10, -10, -8, -7, -4, -5, 0, 2, -1, 0, 0]; %Berlin70
-% cal= [-12, -11, -10, -7, -6, -3, -4, -4, -4, -3, -2, 0, 7, 8, 6, 5, 5]; %Lima RIE MP
 % No system cal at all
 %cal = [0	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
-cal = cal + production_calibration -6;
-% fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % High bandwitdth frequencies
-fre = [0 163 329 501 682 876 1090 1328 1600 1919 2301 2773 3370 4140 5136 6383 7812]; % High bandwitdth frequencies
+%% System cal in Dooku1 BerlinRIE LP
+%cal = [7 7 11 12 13 13 12 13 13 13 14 16 19 17 14 8 8];
 
-% frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
-frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000]; %palpatine
 
-% FOG=[57 59 59 61 62 58 56 51 51];  %Delhi80
-FOG=[50 50 50 50 50 50 47 47 47];  %Berlin70
-% FOG=[51 51 51 51 51 51 48 48 48];  %Lima RIE MP
+%% System cal in Dooku1 BerlinRIE UP
+%cal = [-7	-7 -3 -3 -3 -3 -6 -10 -10 -4 4 11 14 8 6  2 2] %before D14
+%cal = [-8	-7 -1 -2 -3 -4 -8 -9 -14 -10 2 14 10 7 11  5 5] %.19
+% cal = [-6 -5 -1 -2 -2 -3 -6 -10 -10 -6 4 11 14 8 7 2 2]; %PA3 final
+cal = [-10	-7	-3	-4	-3	-5	-6	-11	-10	-6	4	9	14	7	5	1	1]; % CAM13 UP
+
+cal = cal + production_calibration;
+fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % High bandwitdth frequencies
+frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
+
 %FOG=[51, 51, 51, 51, 51, 48, 48, 48, 48, 48];  %Luxor NP
 %FOG=[50, 50, 50, 50, 54, 56, 53, 42, 42, 42]; %HP
 %FOG=[43, 43, 43, 42, 43, 43, 42, 41, 41, 41]; %LP
+%FOG=[55, 55, 55, 57, 76, 79, 48, 54, 49, 46]; %UP 19.0 earlier
+% FOG=[55, 55, 55, 68, 74, 76, 48, 57, 49, 40]; %UP PA3 final
+FOG=[55	55	55	61	74	76	48	55	48	40]; % CAM13 UP
+
 color_array = {'-b','-r','-c','-m','-g','-y','-k','--b','--r','--c','--m','--g','--y','--k'};
-
-% 
-% %cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7]; %% System cal in Dooku1 BerlinRIE LP
-% 
-% %cal = [-3	-3 1 4 5 6 6 7 7 8 9 11 17 17 13 8 8]; %% System cal in Dooku1 BerlinRIE NP
-% 
-% %cal = [6	6	9	10	11	11	11	11	11	11	11	15	17	16	15	12	7];
-% %cal = [-12 	-11	-10	-7	-6	-3	-4	-4	-4	-3	-2	0	7	8	6 5	5]; %p6 luxor NP System cal
-% cal = [-0 	0	0	0	0	0	0	0	0	0	0	0	0	0	0 0	0];
-% cal = cal + production_calibration - 6;
-% %fre = [0 168 340 518 706 908 1131 1383 1674 2019 2442 2981 3693 4672 6059 7997 10417]; % system cal frq at Dooku
-% fre = [0 163 329 501 682 876 1090 1328 1600 1919 2301 2773 3370 4140 5136 6383 7812]; % P6
-% frq_FOG=[250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000,8000]; %Dooku
-% FOG=[51, 51, 51, 51, 51, 48, 48, 48, 48, 48];  %Luxor NP
-
-
 %% plot more OMNI curves together
 currentFolder = pwd;
 currentFolder = strcat(currentFolder,'\');
@@ -93,7 +85,8 @@ for R = 1:1:N
   end
 
   temp = strfind(logFile, 'ref');
-  figfront.Parent.CurrentFigure = 1;
+  %figfront.Parent.CurrentFigure = 1;
+  figure(1)
   hold on;
   if (temp ~= 0) % reference
     if plot_calibrated_response 
@@ -109,7 +102,7 @@ for R = 1:1:N
       front_response = 20*log10(abs(H_front));
       cal_interpolated = interp1(fre,cal,f(:,1)); 
       front_response_calibrated = front_response + cal_interpolated;
-      h_front(R,1) = plot(f(:,1), mirror.*front_response_calibrated);
+      h_front(R,1) = plot(f(:,1), mirror.*front_response_calibrated, color_array{R});
     else
       h_front(R,1) = plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1);%,'Color',[1 0 0]);
     end
@@ -131,7 +124,8 @@ for R = 1:1:N
       fprintf('There has been a mix between OMNI and DUAL log files, overlay therefore not plotted\n');
     end
     
-    figfront.Parent.CurrentFigure = 2;
+    %figfront.Parent.CurrentFigure = 2;
+    figure(2)
     temp = strfind(logFile, 'ref');
     hold on
     if (temp ~= 0)
@@ -148,7 +142,7 @@ for R = 1:1:N
         rear_response = 20*log10(abs(H_rear));
         cal_interpolated = interp1(fre,cal,f(:,1)); 
         rear_response_calibrated = rear_response + cal_interpolated;
-        h_rear(R,1) = plot(f(:,1), mirror.*rear_response_calibrated);
+        h_rear(R,1) = plot(f(:,1), mirror.*rear_response_calibrated,color_array{R});
       else
         h_rear(R,1) = plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1);%,'Color',[0.5 1 0.5]);
       end
@@ -156,16 +150,20 @@ for R = 1:1:N
     
     % plot front and rear figure in same plot (as many plots as we have log files)
     if ~mismatch
-      figtogether = figure;
-      figtogether.set('units','normalized');
+      %figtogether = figure;
+        figure(3)
+      %figtogether.set('units','normalized');
       k = R;
       if ((R*0.2)>1)
         k = 1; % do not plot outside screen
       end
+      
+
+      
       figtogether.Position = [2/3 0.2*R 1/3 3/(5*N)]; % x,y,w,h
-      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-','linewidth',1)
+      plot(f_rear(:,1),mirror.*20*log10(abs(H_rear)),'-b','linewidth',1)
       hold on
-      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-','linewidth',1)
+      plot(f(:,1),mirror.*20*log10(abs(H_front)),'-r','linewidth',1)
       xlim([100,fs/2])
       hold off
       grid on  
@@ -185,11 +183,13 @@ for R = 1:1:N
 end
 
 
-figfront.Parent.CurrentFigure = 1;
+%figfront.Parent.CurrentFigure = 1;
+figure(1)
+hold on
 h_front(N+1,1) = plot(frq_FOG,FOG);
 legend_labels_front{N+1,1} = 'IG';
-xlim([100,fs/2])
-ylim([40,120])
+xlim([100,4000])
+ylim([50,120])
 xlabel('Frequency [Hz]')
 ylabel('Magnitude[dB]')
 title('Front Initialization')  
@@ -201,12 +201,13 @@ set(gcf,'color','w');
 hold off; grid on; box on;
 
 if type_dual
-  figrear.Parent.CurrentFigure = 2;
+  %figrear.Parent.CurrentFigure = 2;
+  figure(2)
   legend_labels_rear{N+1,1} = 'IG';
   h_rear(N+1,1) = plot(frq_FOG,FOG);
   hold off; grid on; box on;
-  xlim([100,fs/2])
-  ylim([40,120])
+  xlim([100,4000])
+  ylim([50,120])
   xlabel('Frequency [Hz]')
   ylabel('Magnitude[dB]')
   title('Rear Initialization')  
@@ -281,3 +282,4 @@ end
 %         xlswrite([pwd, '\data.xlsx'],hl(R).YData,2,['a' num2str(4*(R-1)+3)]);
 %     end
 % end
+
