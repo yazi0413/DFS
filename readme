@@ -12,6 +12,11 @@ DFSInit.init_resp_front = Impulse Response on front mic (MLS - accumulated respo
   so the characteristics of the ear + HI is included here also). we usually deal with the feedback path in frequency domain,
   and since the impulse response is in the time, we make an FFT to obtain the frequency characteristics.
   this becomes the MSG curve (msg_dfs_off)
+  impulse reponse is measured, so it is always correct. (no matter error occur or not)
+
+modeler, there is 16th order IIR filter (modeling receiver to front mic) and 16 tap FIR filter (modeling difference between front and rear)
+  are the result of the modeler.
+  if there is "math error", because reality apparently is too complex to model this IIR&FIR filters within the given constraint.
 
 DFSInit.ImpulseResponseFront = DFSInit.init_resp_front.
   i don't know why two same variable but named different are need.
